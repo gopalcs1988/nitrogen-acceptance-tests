@@ -38,6 +38,12 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npx playwright test --project=chromium
+      - name: Send Email
+        run: |
+          touch .env
+          echo MAIL_USERNAME=${{ secrets.USERNAME }} >> .env
+          echo MAIL_PASSWORD=${{ secrets.PASSWORD }} >> .env
+          node ./mailer.js
       - uses: actions/upload-artifact@v3
         if: always()
         with:
