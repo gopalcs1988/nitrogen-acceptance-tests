@@ -6,7 +6,6 @@ class LoginPage {
         this.username = 'your_username'
         this.password = "//input[@id='password']"
         this.loginButton = "//input[@value='Login']"
-        this.homePage = "//h4[normalize-space()='Hello, Liquid']"
         this.logoutIcon = "//div[@href='#']"
     }
 
@@ -20,8 +19,8 @@ class LoginPage {
         await this.page.locator(this.loginButton).click()
     }
 
-    async checkHomePage() {
-        await this.expect(this.page.locator(this.homePage)).toBeVisible()
+    async checkHomePage(profileName) {
+        await this.expect(this.page.locator(`//h4[normalize-space()='${profileName}']`)).toBeVisible()
     }
 
     async logout() {
