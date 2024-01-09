@@ -3,7 +3,7 @@ const LoginPage = require("../pages/LoginPage");
 const RegisterPage = require("../pages/RegisterPage");
 const HomePage = require("../pages/HomePage");
 
-test.skip("Check user have the access to edit the permission", async ({ page }) => {
+test("Check user have the access to edit the permission", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
@@ -22,7 +22,7 @@ test.skip("Check user have the access to edit the permission", async ({ page }) 
 });
 
 
-test.skip("Login with super admin user to provide the low access ", async ({ page }) => {
+test("Login with super admin user to provide the low access ", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
@@ -36,7 +36,7 @@ test.skip("Login with super admin user to provide the low access ", async ({ pag
   await login.checkLoginPage();
 });
 
-test.skip("Login user with low access to edit the corresponding fields", async ({ page }) => {
+test("Login user with low access to edit the corresponding fields", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
@@ -52,7 +52,7 @@ test.skip("Login user with low access to edit the corresponding fields", async (
   await login.checkLoginPage();
 });
 
-test.skip("Login user with medium access to edit the corresponding fields", async ({ page }) => {
+test("Login user with medium access to edit the corresponding fields", async ({ page }) => {
     const login = new LoginPage(page, expect);
     const homePage = new HomePage(page, expect);
     await login.gotoLoginPage();
