@@ -38,10 +38,15 @@ class HomePage {
         await this.page.keyboard.press('Escape');
     }
 
-    async editProfile(userName, field, value) {
+    async editProfile(userName, field, value, dropDown=false) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(this.managePermission)).toBeVisible()
-        await this.page.locator(`//label[text()='${field}']/following-sibling::input`).fill(value)
+        if(!dropDown) {
+            await this.page.locator(`//label[text()='${field}']/following-sibling::input`).fill(value)
+        }
+        else {
+            await this.page.locator(`//label[text()='${field}']/following-sibling::select`).selectOption(value)
+        }
         await this.page.locator(this.saveBasicInfo).click()
         await this.page.waitForTimeout(4000)
         await this.expect(this.page.locator(this.updateComplete)).toBeVisible()
@@ -49,7 +54,12 @@ class HomePage {
     }
 
     async checkProfile(field, value) {
-        await this.expect(this.page.locator(`//th[text()='${field}']/../../following-sibling::tbody//div[text()='${value}']`)).toBeVisible()
+        if(!(field === 'Username')) {
+            await this.expect(this.page.locator(`//th[text()='${field}']/../../following-sibling::tbody//div[text()='${value}']`)).toBeVisible()
+        }
+        else {
+            await this.expect(this.page.locator(`//th[text()='${field}']/../../following-sibling::tbody//a[text()='${value}']`)).toBeVisible()
+        }
     }
 }
 module.exports = HomePage;

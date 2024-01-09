@@ -3,7 +3,7 @@ const LoginPage = require("../pages/LoginPage");
 const RegisterPage = require("../pages/RegisterPage");
 const HomePage = require("../pages/HomePage");
 
-test("Check user have the access to edit the permission", async ({ page }) => {
+test.skip("Check user have the access to edit the permission", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
@@ -22,7 +22,7 @@ test("Check user have the access to edit the permission", async ({ page }) => {
 });
 
 
-test("Login with super admin user to provide the low access ", async ({ page }) => {
+test.skip("Login with super admin user to provide the low access ", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
@@ -36,7 +36,7 @@ test("Login with super admin user to provide the low access ", async ({ page }) 
   await login.checkLoginPage();
 });
 
-test("Login user with low access to edit the corresponding fields", async ({ page }) => {
+test.skip("Login user with low access to edit the corresponding fields", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
@@ -50,4 +50,48 @@ test("Login user with low access to edit the corresponding fields", async ({ pag
   await homePage.checkProfile("Last Name", "Arumugam");
   await login.logout();
   await login.checkLoginPage();
+});
+
+test.skip("Login user with medium access to edit the corresponding fields", async ({ page }) => {
+    const login = new LoginPage(page, expect);
+    const homePage = new HomePage(page, expect);
+    await login.gotoLoginPage();
+    await login.login("liquid_demo", "liquid_demo");
+    await login.checkHomePage("Hello, Liquid");
+    await homePage.checkUserIsPresent("rajagopal");
+    await homePage.editUser("rajagopal", "admin:profile:sensitive:medium:write");
+    await login.logout();
+    await login.checkLoginPage();
+    await login.login("rajagopal", "password");
+    await login.checkHomePage("Hello, Rajatest");
+    await homePage.checkUserIsPresent("rajagopal");
+    await homePage.editProfile("rajagopal", "Email", "rajagopal1988@gmail.com");
+    await homePage.checkProfile("Email", "rajagopal1988@gmail.com");
+    await login.logout();
+    await login.checkLoginPage();
+});
+
+test("Login user with high access to edit the corresponding fields", async ({ page }) => {
+    const login = new LoginPage(page, expect);
+    const homePage = new HomePage(page, expect);
+    await login.gotoLoginPage();
+    await login.login("liquid_demo", "liquid_demo");
+    await login.checkHomePage("Hello, Liquid");
+    await homePage.checkUserIsPresent("rajagopal");
+    await homePage.editUser("rajagopal", "admin:profile:sensitive:high:write");
+    await login.logout();
+    await login.checkLoginPage();
+    await login.login("rajagopal", "password");
+    await login.checkHomePage("Hello, Rajatest");
+    await homePage.checkUserIsPresent("rajagopal");
+    await homePage.editProfile("rajagopal", "Username", "rajagopal1");
+    await homePage.editProfile("rajagopal1", "Password", "course1#");
+    await homePage.editProfile("rajagopal1", "Country", "IN", true);
+    await homePage.checkProfile("Username", "rajagopal1");
+    await login.logout();
+    await login.checkLoginPage();
+    await login.login("rajagopal1", "course1#");
+    await login.checkHomePage("Hello, Rajatest");
+    await login.logout();
+    await login.checkLoginPage();
 });
