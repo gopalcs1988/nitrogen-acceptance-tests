@@ -17,6 +17,8 @@ test("Check user have the access to edit the permission", async ({ page }) => {
   await login.checkHomePage("Hello, Raja");
   await homePage.checkUserIsPresent("rajagopal");
   await homePage.checkManagePermissionsIsPresent("rajagopal")
+  await login.logout();
+  await login.checkLoginPage();
 });
 
 
@@ -46,4 +48,6 @@ test("Login user with low access to edit the corresponding fields", async ({ pag
   await homePage.editProfile("rajagopal", "Last Name", "Arumugam");
   await homePage.checkProfile("First Name", "Rajatest");
   await homePage.checkProfile("Last Name", "Arumugam");
+  await login.logout();
+  await login.checkLoginPage();
 });
