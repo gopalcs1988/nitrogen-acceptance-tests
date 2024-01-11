@@ -83,6 +83,12 @@ class HomePage {
         await this.page.reload()
     }
 
+    async searchUser(keyword) {
+        await this.expect(this.page.getByPlaceholder(this.searchBar)).toBeVisible()
+        await this.page.getByPlaceholder(this.searchBar).fill(keyword)
+        await this.page.keyboard.press('Enter');
+    }
+
     
 }
 module.exports = HomePage;

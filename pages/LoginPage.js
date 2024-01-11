@@ -29,6 +29,10 @@ class LoginPage {
 
     async logout() {
         await this.page.locator(this.logoutIcon).click()
-    }    
+    }
+    
+    async sleep(timeout) {
+        await this.page.waitForTimeout(timeout * 1000)
+    }
 }
 module.exports = LoginPage;
