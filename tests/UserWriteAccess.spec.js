@@ -113,7 +113,7 @@ test("Multiple browser login", async ({ browser }) => {
       await adminLogin.login("liquid_demo", "liquid_demo");
       await adminLogin.checkHomePage("Hello, Liquid");
       await userLogin.gotoLoginPage();
-      await userLogin.login("rajagopal1", "password");
+      await userLogin.login("rajagopal1", "course1#");
       await userLogin.checkHomePage("Hello, Rajatest");
       await adminHomePage.checkUserIsPresent("rajagopal1");
       await userHomePage.checkUserIsPresent("rajagopal1");
