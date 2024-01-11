@@ -27,6 +27,12 @@ class HomePage {
         await this.page.keyboard.press('Escape');
     }
 
+    async checkUserEditPasswordFieldIsEmpty(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//label[text()='${field}']/following-sibling::input`)).toBeEmpty()
+        await this.page.keyboard.press('Escape');
+    }
+
     async editUser(userName, scope) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(this.managePermission)).toBeVisible()

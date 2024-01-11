@@ -83,6 +83,7 @@ test("Login user with high access to edit the corresponding fields", async ({ pa
     await login.login("rajagopal", "password");
     await login.checkHomePage("Hello, Rajatest");
     await homePage.checkUserIsPresent("rajagopal");
+    await homePage.checkUserEditPasswordFieldIsEmpty("rajagopal", "Password")
     await homePage.editProfile("rajagopal", "Username", "rajagopal1");
     await homePage.editProfile("rajagopal1", "Password", "course1#");
     await homePage.editProfile("rajagopal1", "Country", "IN", true);
