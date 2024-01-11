@@ -97,7 +97,7 @@ test("Login user with high access to edit the corresponding fields", async ({ pa
 });
 
 
-test("Multiple browser login", async ({ browser }) => {
+test("⁠If some permission is removed, check user is automatically logged off", async ({ browser }) => {
     const reporterContext = await browser.newContext();
     const editorContext = await browser.newContext();
     try {
