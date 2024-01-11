@@ -1,6 +1,5 @@
 const { test, expect } = require("@playwright/test");
 const LoginPage = require("../pages/LoginPage");
-const RegisterPage = require("../pages/RegisterPage");
 const HomePage = require("../pages/HomePage");
 
 test("Check user have the access to edit the permission", async ({ page }) => {

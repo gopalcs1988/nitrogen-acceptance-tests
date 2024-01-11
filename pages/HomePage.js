@@ -10,10 +10,15 @@ class HomePage {
         this.updateComplete = `//ol[@class="toaster group"]//div[text()='Update complete']`
         this.saveChanges = "//button[normalize-space()='Save changes']"
         this.saveBasicInfo = "//button[text()='Save Basic Info']"
+        this.searchBar = "Search users..."
     }
 
     async checkUserIsPresent(userName) {
         await this.expect(this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]`)).toBeVisible()
+    }
+
+    async checkSearchBarIsNotPresent() {
+        await this.expect(this.page.getByPlaceholder(this.searchBar)).toBeHidden()
     }
 
     async checkManagePermissionsIsPresent(userName) {
