@@ -95,3 +95,37 @@ test("Login user with high access to edit the corresponding fields", async ({ pa
     await login.logout();
     await login.checkLoginPage();
 });
+
+
+test("Multiple browser login", async ({ browser }) => {
+    const reporterContext = await browser.newContext();
+    const editorContext = await browser.newContext();
+    try {
+      const reporterPage = await reporterContext.newPage();
+      const editorPage = await editorContext.newPage();
+
+      const adminLogin = new LoginPage(reporterPage, expect);
+      const adminHomePage = new HomePage(reporterPage, expect);
+      const userLogin = new LoginPage(editorPage, expect);
+      const userHomePage = new HomePage(editorPage, expect);
+
+      await adminLogin.gotoLoginPage();
+      await adminLogin.login("liquid_demo", "liquid_demo");
+      await adminLogin.checkHomePage("Hello, Liquid");
+      await userLogin.gotoLoginPage();
+      await userLogin.login("rajagopal1", "password");
+      await userLogin.checkHomePage("Hello, Rajatest");
+      await adminHomePage.checkUserIsPresent("rajagopal1");
+      await userHomePage.checkUserIsPresent("rajagopal1");
+      await adminHomePage.editUser("rajagopal1", "admin:profile:sensitive:high:write");
+      await userHomePage.checkUserEditPageError("rajagopal1")
+      await userHomePage.reload()
+      await userLogin.checkLoginPage();
+      await adminLogin.logout();
+      await adminLogin.checkLoginPage();
+    } 
+    finally {
+      await reporterContext.close();
+      await editorContext.close();
+    }
+});

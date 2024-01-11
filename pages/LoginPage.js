@@ -9,6 +9,14 @@ class LoginPage {
         this.logoutIcon = "//div[@href='#']"
     }
 
+    async checkHomePage(profileName) {
+        await this.expect(this.page.locator(`//h4[normalize-space()='${profileName}']`)).toBeVisible()
+    }
+
+    async checkLoginPage() {
+        await this.expect(this.page.getByPlaceholder(this.username)).toBeVisible()
+    }
+
     async gotoLoginPage() {
         await this.page.goto("http://localhost:2001/")
     }
@@ -19,16 +27,8 @@ class LoginPage {
         await this.page.locator(this.loginButton).click()
     }
 
-    async checkHomePage(profileName) {
-        await this.expect(this.page.locator(`//h4[normalize-space()='${profileName}']`)).toBeVisible()
-    }
-
     async logout() {
         await this.page.locator(this.logoutIcon).click()
-    }
-
-    async checkLoginPage() {
-        await this.expect(this.page.getByPlaceholder(this.username)).toBeVisible()
-    }
+    }    
 }
 module.exports = LoginPage;
