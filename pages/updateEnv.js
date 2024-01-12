@@ -2,8 +2,7 @@ const { exec } = require("child_process");
 const fs = require('fs');
 const path = require("path");
 const currentDirectory = __dirname;
-const updateFile = path.join(currentDirectory,"../../liquid/quickstart/.env");
-const parentDirectory = path.join(currentDirectory,"../../liquid/scripts");
+const updateFile = path.join(currentDirectory,"../liquid/quickstart/.env");
 
 class UpdateEnv {
   

@@ -21,8 +21,6 @@ jobs:
           node-version: 18
       - name: Download Liquid Repository
         run: |
-          git clone https://github.com/shrihari-prakash/liquid.git
-          echo "Current Working Directory: $PWD"
           ls -l
           cd liquid/quickstart
           docker compose pull

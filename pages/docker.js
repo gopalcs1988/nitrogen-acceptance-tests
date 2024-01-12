@@ -1,10 +1,7 @@
 const { exec } = require("child_process");
 const path = require("path");
 const currentDirectory = __dirname;
-const parentDirectory = path.join(
-  currentDirectory,
-  "../../liquid/quickstart"
-);
+const parentDirectory = path.join(currentDirectory,"../liquid/quickstart");
 
 class Docker {
   dockerStop() {
