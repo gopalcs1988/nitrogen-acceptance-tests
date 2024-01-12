@@ -37,6 +37,10 @@ class HomePage {
         await this.expect(this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]`)).toBeVisible()
     }
 
+    async checkUserIsNotPresent(userName) {
+        await this.expect(this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]`)).toBeHidden()
+    }
+
     async checkUserEditPageError(userName) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(this.editErrorLoadingMessage)).toBeVisible()
