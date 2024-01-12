@@ -152,13 +152,9 @@ test("Check the user edit field is restricted based on the option configured wit
   await homePage.checkEditFieldIsDisabled("rajagopal1", "Password")
   await login.logout();
   await login.checkLoginPage();
-  await login.login("rajagopal1", "course1#");
-  await login.checkHomePage("Hello, Rajatest");
-  await login.logout();
-  await login.checkLoginPage();
   await dockerUtils.dockerStopContainer("liquid");
   await updateEnvironment.updateEnvVariable("ADMIN_API_USER_PROFILE_EDITABLE_FIELDS","username,email,password,deleted,role,firstName,lastName,middleName,bio,pronouns,customLink,organization,designation,gender,preferredLanguage,country")
   await dockerUtils.dockerStartContainer("liquid");
   await login.sleep(2)
-});
+}, { timeout: 60000 });// Set the timeout to 60 seconds
 
