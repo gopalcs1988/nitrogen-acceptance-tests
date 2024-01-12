@@ -144,12 +144,12 @@ test("Check the user edit field is restricted based on the option configured wit
   await login.gotoLoginPage();
   await login.login("rajagopal1", "course1#");
   await login.checkHomePage("Hello, Rajatest");
-  await homePage.checkUserIsPresent("rajagopal");
-  await homePage.checkEditFieldIsEnabled("rajagopal", "First Name")
-  await homePage.checkEditFieldIsDisabled("rajagopal", "Last Name")
-  await homePage.checkEditFieldIsDisabled("rajagopal", "Middle Name")
-  await homePage.checkEditFieldIsDisabled("rajagopal", "Email")
-  await homePage.checkEditFieldIsDisabled("rajagopal", "Password")
+  await homePage.checkUserIsPresent("rajagopal1");
+  await homePage.checkEditFieldIsEnabled("rajagopal1", "First Name")
+  await homePage.checkEditFieldIsDisabled("rajagopal1", "Last Name")
+  await homePage.checkEditFieldIsDisabled("rajagopal1", "Middle Name")
+  await homePage.checkEditFieldIsDisabled("rajagopal1", "Email")
+  await homePage.checkEditFieldIsDisabled("rajagopal1", "Password")
   await login.logout();
   await login.checkLoginPage();
   await login.login("rajagopal1", "course1#");
