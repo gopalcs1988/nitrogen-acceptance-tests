@@ -1,6 +1,8 @@
 const { test, expect } = require("@playwright/test");
 const LoginPage = require("../pages/LoginPage");
 const HomePage = require("../pages/HomePage");
+const Docker = require("../pages/docker")
+const updateEnv = require("../pages/updateEnv")
 
 test("Check user have the access to edit the permission", async ({ page }) => {
   const login = new LoginPage(page, expect);
@@ -129,3 +131,34 @@ test("⁠If some permission is removed, check user is automatically logged off",
       await editorContext.close();
     }
 });
+
+test("Check the user edit field is restricted based on the option configured with values", async ({ page }) => {
+  const login = new LoginPage(page, expect);
+  const homePage = new HomePage(page, expect);
+  const dockerUtils = new Docker(page, expect);
+  const updateEnvironment = new updateEnv(page, expect);
+  await dockerUtils.dockerStopContainer("liquid");
+  await updateEnvironment.updateEnvVariable("ADMIN_API_USER_PROFILE_EDITABLE_FIELDS","firstName")
+  await dockerUtils.dockerStartContainer("liquid");
+  await login.sleep(10)
+  await login.gotoLoginPage();
+  await login.login("rajagopal1", "course1#");
+  await login.checkHomePage("Hello, Rajatest");
+  await homePage.checkUserIsPresent("rajagopal");
+  await homePage.checkEditFieldIsEnabled("rajagopal", "First Name")
+  await homePage.checkEditFieldIsDisabled("rajagopal", "Last Name")
+  await homePage.checkEditFieldIsDisabled("rajagopal", "Middle Name")
+  await homePage.checkEditFieldIsDisabled("rajagopal", "Email")
+  await homePage.checkEditFieldIsDisabled("rajagopal", "Password")
+  await login.logout();
+  await login.checkLoginPage();
+  await login.login("rajagopal1", "course1#");
+  await login.checkHomePage("Hello, Rajatest");
+  await login.logout();
+  await login.checkLoginPage();
+  await dockerUtils.dockerStopContainer("liquid");
+  await updateEnvironment.updateEnvVariable("ADMIN_API_USER_PROFILE_EDITABLE_FIELDS","username,email,password,deleted,role,firstName,lastName,middleName,bio,pronouns,customLink,organization,designation,gender,preferredLanguage,country")
+  await dockerUtils.dockerStartContainer("liquid");
+  await login.sleep(2)
+});
+

@@ -14,6 +14,18 @@ class HomePage {
         this.editErrorLoadingMessage = "//div[.='Error loading user']"
     }
 
+    async checkEditFieldIsDisabled(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//label[text()='${field}']/following-sibling::input`)).toBeDisabled()
+        await this.page.keyboard.press('Escape');
+    }
+
+    async checkEditFieldIsEnabled(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//label[text()='${field}']/following-sibling::input`)).toBeEditable()
+        await this.page.keyboard.press('Escape');
+    }
+
     async checkManagePermissionsIsPresent(userName) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(this.managePermission)).toBeVisible()
