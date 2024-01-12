@@ -4,7 +4,7 @@ const HomePage = require("../pages/HomePage");
 const Docker = require("../pages/docker")
 const updateEnv = require("../pages/updateEnv")
 
-test.skip("Check can search for users by concatenating first and last name", async ({ page }) => {
+test("Check can search for users by concatenating first and last name", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   const dockerUtils = new Docker(page, expect);
@@ -41,7 +41,7 @@ test("Check user can search only with the configured fields", async ({ page }) =
   await login.logout();
 });
 
-test.skip("Check search bar is not present on the home page", async ({ page }) => {
+test("Check search bar is not present on the home page", async ({ page }) => {
   const login = new LoginPage(page, expect);
   const homePage = new HomePage(page, expect);
   await login.gotoLoginPage();
