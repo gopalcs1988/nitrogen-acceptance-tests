@@ -156,5 +156,5 @@ test("Check the user edit field is restricted based on the option configured wit
   await updateEnvironment.updateEnvVariable("ADMIN_API_USER_PROFILE_EDITABLE_FIELDS","username,email,password,deleted,role,firstName,lastName,middleName,bio,pronouns,customLink,organization,designation,gender,preferredLanguage,country")
   await dockerUtils.dockerStartContainer("liquid");
   await login.sleep(2)
-}, { timeout: 60000 });// Set the timeout to 60 seconds
+});
 

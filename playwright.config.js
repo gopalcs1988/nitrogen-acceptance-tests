@@ -22,7 +22,7 @@ module.exports = defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 1,
   //globalTimeout: 60 * 60 * 1000,
-  //timeout: 30000,
+  timeout: 5 * 60 * 1000,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html'],
              ['json', {  outputFile: 'test-results.json' }]
