@@ -3,15 +3,22 @@ class HomePage {
     constructor(page, expect) {
         this.page = page
         this.expect = expect
+        this.authenticationErrorMessage = "//div[text()='Authentication Error']"
         this.managePermission = "//button[normalize-space()='Manage Permissions']"
         this.permissionsList = "//h2[contains(text(),'Managing permissions for')]"
         this.permissionSearchTextPlaceHolder = "//input[@placeholder='Start typing to search']"
         this.permissionUpdated = `//ol[@class="toaster group"]//div[text()='Permissions updated']`
         this.updateComplete = `//ol[@class="toaster group"]//div[text()='Update complete']`
+        this.userSuspended = `//ol[@class="toaster group"]//div[text()='User suspended']`
+        this.userRestored = `//ol[@class="toaster group"]//div[text()='User restored']`
         this.saveChanges = "//button[normalize-space()='Save changes']"
         this.saveBasicInfo = "//button[text()='Save Basic Info']"
         this.searchBar = "Search users..."
         this.editErrorLoadingMessage = "//div[.='Error loading user']"
+    }
+
+    async checkAuthenticationErrorMessage() {
+        await this.expect(this.page.locator(this.authenticationErrorMessage)).toBeVisible()
     }
 
     async checkEditFieldIsDisabled(userName, field) {
@@ -79,6 +86,16 @@ class HomePage {
         await this.page.keyboard.press('Escape');
     }
 
+    async enableAdminControls(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']`)).toBeVisible()
+        await this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="unchecked"]`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="checked"]`)).toBeVisible()
+        await this.page.waitForTimeout(1000)
+        await this.expect(this.page.locator(this.userSuspended)).toBeVisible()
+        await this.page.keyboard.press('Escape');
+    }
+
     async editUser(userName, scope) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(this.managePermission)).toBeVisible()
@@ -97,6 +114,16 @@ class HomePage {
 
     async reload() {
         await this.page.reload()
+    }
+
+    async revertAdminControls(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']`)).toBeVisible()
+        await this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="checked"]`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="unchecked"]`)).toBeVisible()
+        await this.page.waitForTimeout(1000)
+        await this.expect(this.page.locator(this.userRestored)).toBeVisible()
+        await this.page.keyboard.press('Escape');
     }
 
     async searchUser(keyword) {
