@@ -9,7 +9,10 @@ class HomePage {
         this.permissionSearchTextPlaceHolder = "//input[@placeholder='Start typing to search']"
         this.permissionUpdated = `//ol[@class="toaster group"]//div[text()='Permissions updated']`
         this.updateComplete = `//ol[@class="toaster group"]//div[text()='Update complete']`
-        this.userSuspended = `//ol[@class="toaster group"]//div[text()='User suspended']`
+        this.Suspended = `//ol[@class="toaster group"]//div[text()='User suspended']`
+        this.Verified = `//ol[@class="toaster group"]//div[text()='User verified']`
+        this.verifiedIcon = `//a[contains(text(),'shrihari')]/*[@stroke-linecap='round']`
+        this.userUnVerified = `//ol[@class="toaster group"]//div[text()='User un-verified']`
         this.userRestored = `//ol[@class="toaster group"]//div[text()='User restored']`
         this.saveChanges = "//button[normalize-space()='Save changes']"
         this.saveBasicInfo = "//button[text()='Save Basic Info']"
@@ -92,7 +95,8 @@ class HomePage {
         await this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="unchecked"]`).click()
         await this.expect(this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="checked"]`)).toBeVisible()
         await this.page.waitForTimeout(1000)
-        await this.expect(this.page.locator(this.userSuspended)).toBeVisible()
+        let value = field.toLowerCase()
+        await this.expect(this.page.locator(`//ol[@class="toaster group"]//div[text()='User ${value}']`)).toBeVisible()
         await this.page.keyboard.press('Escape');
     }
 
@@ -132,6 +136,20 @@ class HomePage {
         await this.page.keyboard.press('Enter');
     }
 
-    
+    async checkVerifiedIcon() {
+        await this.expect(this.page.locator(this.verifiedIcon)).toBeVisible()
+    }
+
+    async unVerifyAccount(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']`)).toBeVisible()
+        await this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="checked"]`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="unchecked"]`)).toBeVisible()
+        await this.page.waitForTimeout(1000)
+        let value = field.toLowerCase()
+        await this.expect(this.page.locator(this.userUnVerified)).toBeVisible()
+        await this.page.keyboard.press('Escape');
+        await this.expect(this.page.locator(this.verifiedIcon)).toBeHidden()
+    }
 }
 module.exports = HomePage;
