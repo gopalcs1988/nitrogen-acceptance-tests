@@ -13,11 +13,13 @@ class HomePage {
         this.Verified = `//ol[@class="toaster group"]//div[text()='User verified']`
         this.verifiedIcon = `//a[contains(text(),'shrihari')]/*[@stroke-linecap='round']`
         this.userUnVerified = `//ol[@class="toaster group"]//div[text()='User un-verified']`
+        this.userUnRestricted = `//ol[@class="toaster group"]//div[text()='User un-restricted']`
         this.userRestored = `//ol[@class="toaster group"]//div[text()='User restored']`
         this.saveChanges = "//button[normalize-space()='Save changes']"
         this.saveBasicInfo = "//button[text()='Save Basic Info']"
         this.searchBar = "Search users..."
         this.editErrorLoadingMessage = "//div[.='Error loading user']"
+        this.restrictedIcon = `//span[contains(text(),'Shri')]/following-sibling::*[@stroke-linejoin='round']`
     }
 
     async checkAuthenticationErrorMessage() {
@@ -49,6 +51,13 @@ class HomePage {
         else {
             await this.expect(this.page.locator(`//th[text()='${field}']/../../following-sibling::tbody//a[text()='${value}']`)).toBeVisible()
         }
+    }
+
+    async checkRestrictedIcon(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']`)).toBeVisible()
+        await this.expect(this.page.locator(this.restrictedIcon)).toBeVisible()
+        await this.page.keyboard.press('Escape');
     }
     
     async checkSearchBarIsNotPresent() {
@@ -140,13 +149,23 @@ class HomePage {
         await this.expect(this.page.locator(this.verifiedIcon)).toBeVisible()
     }
 
+    async unRestrictAccount(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']`)).toBeVisible()
+        await this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="checked"]`).click()
+        await this.expect(this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="unchecked"]`)).toBeVisible()
+        await this.page.waitForTimeout(1000)
+        await this.expect(this.page.locator(this.userUnRestricted)).toBeVisible()
+        await this.expect(this.page.locator(this.restrictedIcon)).toBeHidden()
+        await this.page.keyboard.press('Escape');
+    }
+
     async unVerifyAccount(userName, field) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(`//div/label[text()='${field}']`)).toBeVisible()
         await this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="checked"]`).click()
         await this.expect(this.page.locator(`//div/label[text()='${field}']/../following-sibling::button[@data-state="unchecked"]`)).toBeVisible()
         await this.page.waitForTimeout(1000)
-        let value = field.toLowerCase()
         await this.expect(this.page.locator(this.userUnVerified)).toBeVisible()
         await this.page.keyboard.press('Escape');
         await this.expect(this.page.locator(this.verifiedIcon)).toBeHidden()
