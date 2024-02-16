@@ -109,6 +109,23 @@ class HomePage {
         await this.page.keyboard.press('Escape');
     }
 
+    async enableSubscription(userName, field) {
+        await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
+        await this.expect(this.page.locator(`//h4[text()='Subscription']`)).toBeVisible()
+        await this.page.locator(`//h4[text()='Subscription']/../form//select`).selectOption(field)
+        await this.page.locator(`(//h4[text()='Subscription']/../form//button[@type='button'])[2]`).click()
+        await this.page.waitForTimeout(1000)
+        await this.page.locator(`//button[@name='next-month']`).click()
+        await this.page.waitForTimeout(1000)
+        await this.page.locator(`//table//td//button[text()='20']`).click()
+        const dateValue = await this.page.locator(`(//h4[text()='Subscription']/../form//button[@type='button'])[2]`)
+        await this.expect(dateValue).toContainText("20")
+        await this.page.locator(`//h4[text()='Subscription']/../form//button[@type='submit']`).click()
+        await this.expect(this.page.locator(this.updateComplete)).toBeVisible()
+        await this.page.keyboard.press('Escape')
+        await this.expect(this.page.locator(`//a[text()='shrihari']//div[text()='premium']`)).toBeVisible()
+    }
+
     async editUser(userName, scope) {
         await this.page.locator(`//tbody/tr//a[contains(text(),'${userName}')]/../..//button`).click()
         await this.expect(this.page.locator(this.managePermission)).toBeVisible()

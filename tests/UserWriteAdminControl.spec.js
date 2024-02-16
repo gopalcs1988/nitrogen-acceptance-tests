@@ -116,3 +116,18 @@ test('Check that user is able to un-restrict the account', async ({page}) => {
     await login.login('shrihari','password')
     await login.checkHomePage('Hello, Shri')
   })
+
+test('Check that user is able to subscribe for premium account', async ({page}) => {
+  const login = new LoginPage(page, expect)
+  const homePage = new HomePage(page, expect)
+  await login.gotoLoginPage()
+  await login.login('liquid_demo','liquid_demo')
+  await login.checkHomePage('Hello, Liquid')
+  await homePage.checkUserIsPresent('rajagopal1')
+  await homePage.editUser('rajagopal1', 'admin:profile:subscriptions:write')
+  await login.logout()
+  await login.checkLoginPage()
+  await login.login('rajagopal1','course1#')
+  await login.checkHomePage('Hello, Rajatest')
+  await homePage.enableSubscription('shrihari','premium')
+})
