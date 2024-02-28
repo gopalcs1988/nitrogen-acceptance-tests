@@ -1,4 +1,21 @@
 # nitrogen-acceptance-tests
+# Proejct Structure:
+- .github/worflow
+    - playwright.yml (To execute the testcases on the github actions)
+- liquid
+    - quickstart (Deploy the application using the docker containers)
+- pages
+    - JS files will be present based on the application pages and corresponding the methods using the POM structure
+- tests
+    - test cases are located as *.spec.js under tests folder
+- mailer.js
+    - Used to send the report as a email
+- template.html
+    - Email's html template
+- package.json
+    - Depedencies listed out to install and execute
+- playwright.config.js
+    - test framework configurations(workers, html result path, timeout and browsers list)
 
 # To initialize the project and to setup an environment, need to run the below command
 npm init playwright@latest
