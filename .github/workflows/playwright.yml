@@ -37,6 +37,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --project=chromium
       - name: Send Email
+        if: always()
         run: |
           touch .env
           echo MAIL_USERNAME=${{ secrets.USERNAME }} >> .env
