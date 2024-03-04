@@ -10,7 +10,7 @@ test("Check can search for users by concatenating first and last name", async ({
   const dockerUtils = new Docker(page, expect);
   const updateEnvironment = new updateEnv(page, expect);
   await dockerUtils.dockerStopContainer("liquid");
-  await updateEnvironment.updateEnvVariable("USER_SEARCH_CAN_USE_FULLNAME","true")
+  await updateEnvironment.updateEnvVariable("ADMIN_API_USER_SEARCH_CAN_USE_FULLNAME","true")
   await dockerUtils.dockerStartContainer("liquid");
   await login.sleep(10)
   await login.gotoLoginPage();
@@ -27,8 +27,8 @@ test("Check user can search only with the configured fields", async ({ page }) =
   const dockerUtils = new Docker(page, expect);
   const updateEnvironment = new updateEnv(page, expect);
   await dockerUtils.dockerStopContainer("liquid");
-  await updateEnvironment.updateEnvVariable("USER_SEARCH_CAN_USE_FULLNAME","false")
-  await updateEnvironment.updateEnvVariable("USER_SEARCH_SEARCH_FIELDS","firstName")
+  await updateEnvironment.updateEnvVariable("ADMIN_API_USER_SEARCH_CAN_USE_FULLNAME","false")
+  await updateEnvironment.updateEnvVariable("ADMIN_API_USER_SEARCH_SEARCH_FIELDS","firstName")
   await dockerUtils.dockerStartContainer("liquid");
   await login.sleep(10)
   await login.gotoLoginPage();
