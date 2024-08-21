@@ -8,7 +8,7 @@ class Docker {
     // Define the shell command to stop all Docker containers
     return new Promise((resolve, reject) => {
       const stopContainersCommand =
-      `docker-compose -f ${parentDirectory}/docker-compose.yaml down`;
+      `docker compose -f ${parentDirectory}/docker-compose.yaml down`;
       
       // Execute the shell command
       exec(stopContainersCommand, (error, stdout, stderr) => {
@@ -27,7 +27,7 @@ class Docker {
   dockerStopContainer(containerName) {
     return new Promise((resolve, reject) => {
       const stopContainersCommand =
-      `docker-compose -f ${parentDirectory}/docker-compose.yaml down ${containerName}`;
+      `docker compose -f ${parentDirectory}/docker-compose.yaml down ${containerName}`;
       
       // Execute the shell command
       exec(stopContainersCommand, (error, stdout, stderr) => {
@@ -47,7 +47,7 @@ class Docker {
     // Define the shell command to stop all Docker containers
     return new Promise((resolve, reject) => {
       const startContainersCommand =
-      `docker-compose -f ${parentDirectory}/docker-compose.yaml up -d`;
+      `docker compose -f ${parentDirectory}/docker-compose.yaml up -d`;
 
       // Execute the shell command
       exec(startContainersCommand, (error, stdout, stderr) => {
@@ -67,7 +67,7 @@ class Docker {
     // Define the shell command to stop all Docker containers
     return new Promise((resolve, reject) => {
       const startContainersCommand =
-      `docker-compose -f ${parentDirectory}/docker-compose.yaml up -d ${containerName}`;
+      `docker compose -f ${parentDirectory}/docker-compose.yaml up -d ${containerName}`;
 
       // Execute the shell command
       exec(startContainersCommand, (error, stdout, stderr) => {
