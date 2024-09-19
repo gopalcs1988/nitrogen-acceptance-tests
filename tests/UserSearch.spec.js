@@ -34,9 +34,13 @@ test("Check user can search only with the configured fields", async ({ page }) =
   await login.gotoLoginPage();
   await login.login("rajagopal", "password");
   await login.checkHomePage("Hello, Raja");
+  await login.sleep(3)
   await homePage.searchUser("Raja")
+  await login.sleep(3)
   await homePage.checkUserIsPresent("rajagopal");
+  await login.sleep(3)
   await homePage.searchUser("test")
+  await login.sleep(3)
   await homePage.checkUserIsNotPresent("rajagopal");
   await login.logout();
 });
